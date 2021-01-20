@@ -68,21 +68,21 @@ const HomePage = () => {
 					{products
 						.filter((product, idx) => idx < 2)
 						.map((product) => (
-							<ProductCard {...product} />
+							<ProductCard key={product.id} product={product}  />
 						))}
 				</div>
                 <div className="home__row">
 					{products
 						.filter((product, idx) => idx > 1 && idx < 5)
 						.map((product) => (
-							<ProductCard {...product} />
+							<ProductCard key={product.id} product={product} />
 						))}
 				</div>
                 <div className="home__row">
 					{products
 						.filter((product, idx) => idx > 4)
 						.map((product) => (
-							<ProductCard {...product} />
+							<ProductCard key={product.id} product={product} />
 						))}
 				</div>
 			</div>

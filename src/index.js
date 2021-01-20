@@ -1,14 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import { StateProvider } from "./provider/StateProvider";
 // import * as serviceWorker from './serviceWorker';
+import {initialState} from './reducer/reducer';
+import reducer from './reducer/reducer';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<StateProvider initialState={initialState} reducer={reducer}>
+			<App />
+		</StateProvider>
+	</React.StrictMode>,
+	document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

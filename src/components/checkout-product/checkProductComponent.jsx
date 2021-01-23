@@ -1,16 +1,18 @@
 import React from "react";
 import CustomButton from "../custom-button/customButtonComponent";
 import "./checkProduct.styles.css";
-import {useStateValue} from '../../provider/StateProvider'
-const CheckoutProduct = ({ product, index }) => {
+import { useStateValue } from "../../provider/StateProvider";
+import { connect } from "react-redux";
+import { removeItemFromCart } from "../../reducer/cart/cartActions";
+const CheckoutProduct = ({ removeItemFromCart, product, index }) => {
 	const { id, title, price, image, rating } = product;
-	const [{ basket }, dispatch] = useStateValue();
-	const removeFromBasket = () => {
-		dispatch({
-			type: "REMOVE_FROM_BASKET",
-			index: index
-		});
-	};
+	// const [{ basket }, dispatch] = useStateValue();
+	// const removeFromBasket = () => {
+	// 	dispatch({
+	// 		type: "REMOVE_FROM_BASKET",
+	// 		index: index
+	// 	});
+	// };
 	return (
 		<div className="checkoutProduct">
 			<img src={image} alt="" className="checkoutProduct__image" />
@@ -27,13 +29,15 @@ const CheckoutProduct = ({ product, index }) => {
 							<p>⭐</p>
 						))}
 				</div>
-				<div className="checkoutProduct__button">
-				</div>
-				<CustomButton onClick={removeFromBasket}>Remove from basket</CustomButton>
+				<div className="checkoutProduct__button"></div>
+				<CustomButton onClick={() => removeItemFromCart(index)}>Remove from basket</CustomButton>
 			</div>
-			
 		</div>
 	);
 };
 
-export default CheckoutProduct;
+const mapDispatchToProps = (dispatch) => ({
+	removeItemFromCart: (index) => dispatch(removeItemFromCart(index)),
+});
+
+export default connect(null, mapDispatchToProps)(CheckoutProduct);

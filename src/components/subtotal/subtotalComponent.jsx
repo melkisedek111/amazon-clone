@@ -1,32 +1,45 @@
-import React from 'react';
-import './subtotal.styles.css';
-import CurrencyFormat from 'react-currency-format';
-import { useStateValue } from '../../provider/StateProvider';
-const Subtotal = () => {
-    const [{ basket }, dispatch] = useStateValue();
-    const totalValue = basket?.reduce((total, {price}) => total + price, 0);
-    return (
-        <div className="subtotal">
-            <CurrencyFormat renderText={(value) => (
-                <>
-                    <p>
-                        Subtotal ({basket.length} items):
-                        <strong>{value}</strong>
-                    </p>
-                    <small className="subtotal__gift">
-                        <input type="checkbox"/> This order
-                    </small>
-                </>
-            )}
-                decimalScale={2}
-                value={totalValue}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={'$'}
-            />
-            <button>Proceed to CHeckout</button>
-        </div>
-    )   
-}
+import React from "react";
+import "./subtotal.styles.css";
+import CurrencyFormat from "react-currency-format";
+import { useStateValue } from "../../provider/StateProvider";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import {
+	selectCartItemsCount,
+	selectTotalCartItems,
+} from "../../reducer/cart/cartSelector";
+const Subtotal = ({ cartItemsCount, totalCartItems }) => {
+	// const [{ basket }, dispatch] = useStateValue();
+	// const totalValue = basket?.reduce((total, {price}) => total + price, 0);
 
-export default Subtotal;
+	return (
+		<div className="subtotal">
+			<CurrencyFormat
+				renderText={(value) => (
+					<>
+						<p>
+							Subtotal ({cartItemsCount} items):
+							<strong>{value}</strong>
+						</p>
+						<small className="subtotal__gift">
+							<input type="checkbox" /> This order
+						</small>
+					</>
+				)}
+				decimalScale={2}
+				value={totalCartItems}
+				displayType={"text"}
+				thousandSeparator={true}
+				prefix={"$"}
+			/>
+			<button>Proceed to CHeckout</button>
+		</div>
+	);
+};
+
+const mapStateToProps = createStructuredSelector({
+	cartItemsCount: selectCartItemsCount,
+	totalCartItems: selectTotalCartItems,
+});
+
+export default connect(mapStateToProps)(Subtotal);

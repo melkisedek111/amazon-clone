@@ -1,18 +1,18 @@
 import React from "react";
 import "./productCard.styles.css";
-import { useStateValue } from "../../provider/StateProvider";
-import CustomButton from '../custom-button/customButtonComponent'
-const ProductCard = ({ product }) => {
+// import { useStateValue } from "../../provider/StateProvider";
+import CustomButton from "../custom-button/customButtonComponent";
+import { connect } from "react-redux";
+import { addItemToCart } from "../../reducer/cart/cartActions";
+const ProductCard = ({ product, addItemToCart }) => {
 	const { id, title, price, image, rating } = product;
-    const [{ basket }, dispatch] = useStateValue();
-    console.log(basket);
-
-	const addToBasket = () => {
-		dispatch({
-			type: "ADD_TO_BASKET",
-			item: { ...product },
-		});
-	};
+	// const [{ basket }, dispatch] = useStateValue();
+	// const addToBasket = () => {
+	// 	dispatch({
+	// 		type: "ADD_TO_BASKET",
+	// 		item: { ...product },
+	// 	});
+	// };
 	return (
 		<div className="productCard">
 			<img src={image} alt="" />
@@ -30,9 +30,15 @@ const ProductCard = ({ product }) => {
 						))}
 				</div>
 			</div>
-			<CustomButton type="button" onClick={addToBasket}>Add to Basket</CustomButton>
+			<CustomButton type="button" onClick={() => addItemToCart(product)}>
+				Add to Basket
+			</CustomButton>
 		</div>
 	);
 };
 
-export default ProductCard;
+const mapDispatchToProps = (dispatch) => ({
+	addItemToCart: (product) => dispatch(addItemToCart(product)),
+});
+
+export default connect(null, mapDispatchToProps)(ProductCard);

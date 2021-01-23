@@ -4,15 +4,24 @@ import "./index.css";
 import App from "./App";
 import { StateProvider } from "./provider/StateProvider";
 // import * as serviceWorker from './serviceWorker';
-import {initialState} from './reducer/reducer';
-import reducer from './reducer/reducer';
+// import { initialState } from "./reducer/reducer";
+// import reducer from "./reducer/reducer";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/es/integration/react";
+import { store, persistor } from "./reducer/store";
 
 ReactDOM.render(
-	<React.StrictMode>
-		<StateProvider initialState={initialState} reducer={reducer}>
-			<App />
-		</StateProvider>
-	</React.StrictMode>,
+	<Provider store={store}>
+		<React.StrictMode>
+			<PersistGate persistor={persistor}>
+				<App />
+			</PersistGate>
+
+			{/* <StateProvider initialState={initialState} reducer={reducer}>
+				<App />
+			</StateProvider> */}
+		</React.StrictMode>
+	</Provider>,
 	document.getElementById("root")
 );
 

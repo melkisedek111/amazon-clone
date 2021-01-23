@@ -1,11 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 import CheckoutProduct from "../../components/checkout-product/checkProductComponent";
 import Subtotal from "../../components/subtotal/subtotalComponent";
 import { useStateValue } from "../../provider/StateProvider";
+import { selectCartItems } from "../../reducer/cart/cartSelector";
 import "./checkout.styles.css";
 
-const CheckoutPage = () => {
-	const [{ basket }, dispatch] = useStateValue();
+const CheckoutPage = ({cartItems}) => {
+	// const [{ basket }, dispatch] = useStateValue();
 	return (
 		<div className="checkout">
 			<div className="checkout__left">
@@ -17,7 +20,7 @@ const CheckoutPage = () => {
 				<div>
 					<h2 className="checkout__title">Your shopping basket</h2>
 				</div>
-				{basket.map((product, idx) => (
+				{cartItems.map((product, idx) => (
 					<CheckoutProduct key={idx} product={product} index={idx}/>
 				))}
 			</div>
@@ -27,5 +30,8 @@ const CheckoutPage = () => {
 		</div>
 	);
 };
+const mapStateToProps = createStructuredSelector({
+	cartItems: selectCartItems,
+});
 
-export default CheckoutPage;
+export default connect(mapStateToProps)(CheckoutPage);

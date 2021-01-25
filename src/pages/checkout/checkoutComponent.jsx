@@ -5,10 +5,12 @@ import CheckoutProduct from "../../components/checkout-product/checkProductCompo
 import Subtotal from "../../components/subtotal/subtotalComponent";
 import { useStateValue } from "../../provider/StateProvider";
 import { selectCartItems } from "../../reducer/cart/cartSelector";
+import { selectCurrentUser } from "../../reducer/user/userSelector";
 import "./checkout.styles.css";
-
-const CheckoutPage = ({cartItems}) => {
+import { v4 as uuidv4 } from "uuid";
+const CheckoutPage = ({ cartItems, currentUser }) => {
 	// const [{ basket }, dispatch] = useStateValue();
+
 	return (
 		<div className="checkout">
 			<div className="checkout__left">
@@ -18,10 +20,11 @@ const CheckoutPage = ({cartItems}) => {
 					className="checkout__ad"
 				/>
 				<div>
+					<h3>Hello, {currentUser?.email}</h3>
 					<h2 className="checkout__title">Your shopping basket</h2>
 				</div>
 				{cartItems.map((product, idx) => (
-					<CheckoutProduct key={idx} product={product} index={idx}/>
+					<CheckoutProduct key={uuidv4()} product={product} index={idx} />
 				))}
 			</div>
 			<div className="checkout__right">
@@ -32,6 +35,7 @@ const CheckoutPage = ({cartItems}) => {
 };
 const mapStateToProps = createStructuredSelector({
 	cartItems: selectCartItems,
+	currentUser: selectCurrentUser,
 });
 
 export default connect(mapStateToProps)(CheckoutPage);

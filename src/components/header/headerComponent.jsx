@@ -11,7 +11,6 @@ import { auth } from "../../firebase/firebase.utls";
 import { selectCurrentUser } from "../../reducer/user/userSelector";
 const Header = ({cartItemsCount, currentUser}) => {
 	// const [{ basket }, dipatch] = useStateValue();
-	
 	return (
 		<div className="header">
 			
@@ -31,7 +30,7 @@ const Header = ({cartItemsCount, currentUser}) => {
 				{
 					currentUser ? (
 						<div className="header__option" >
-							<span className="header__optionLineOne">Hello Guest</span>
+							<span className="header__optionLineOne">Hello {currentUser ? currentUser.email : 'Guest'}</span>
 							<span className="header__optionLineTwo" onClick={() => auth.signOut()}>Sign Out</span>
 						</div>
 					) : (

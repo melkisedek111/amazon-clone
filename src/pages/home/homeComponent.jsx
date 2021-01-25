@@ -27,21 +27,21 @@ const HomePage = ({fetchShopData, currentUser}) => {
 					{fetchShopData
 						.filter((product, idx) => idx < 2)
 						.map((product) => (
-							<ProductCard key={product.id} product={product} />
+							<ProductCard {...product} key={product.id} />
 						))}
 				</div>
 				<div className="home__row">
 					{fetchShopData
 						.filter((product, idx) => idx > 1 && idx < 5)
 						.map((product) => (
-							<ProductCard key={product.id} product={product} />
+							<ProductCard key={product.id} {...product} />
 						))}
 				</div>
 				<div className="home__row">
 					{fetchShopData
 						.filter((product, idx) => idx > 4)
 						.map((product) => (
-							<ProductCard key={product.id} product={product} />
+							<ProductCard key={product.id} {...product} />
 						))}
 				</div>
 			</div>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 import Header from "./components/header/headerComponent";
 import HomePage from "./pages/home/homeComponent";
+
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -16,6 +17,12 @@ import { connect } from "react-redux";
 import { setCurrentUser } from "./reducer/user/userActions";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "./reducer/user/userSelector";
+import PaymentPage from "./pages/payment/paymentComponent";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+const promise = loadStripe(
+	"pk_test_51Guub0ESprxiEf1pGomNfB1hTwrbZDQfMlQyNztkIrTuJHx2O6fF11UrgG080nd9jZY4PppmkBuOKkcNWe4GBlSI00zvGQdzYN"
+);
 function App({ setCurrentUser, currentUser }) {
 	// const [{}, dispatch] = useStateValue();
 	useEffect(() => {
@@ -37,6 +44,12 @@ function App({ setCurrentUser, currentUser }) {
 						<Header />
 						<CheckoutPage />
 					</Route>
+					<Route exact path="/payment">
+						<Header />
+						<Elements stripe={promise}>
+							<PaymentPage />
+						</Elements>
+					</Route>
 					<Route path="/">
 						<Header />
 						<HomePage />
@@ -52,7 +65,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = createStructuredSelector({
-	currentUser: selectCurrentUser
+	currentUser: selectCurrentUser,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

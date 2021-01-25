@@ -15,11 +15,11 @@ const LoginPage = ({currentUser}) => {
     });
     const {email, password} = input;
 
-    // useEffect(() => {
-    //     if(currentUser) {
-    //         history.push('/');
-    //     }
-    // }, [currentUser])
+    useEffect(() => {
+        if(currentUser) {
+            history.push('/');
+        }
+    }, [currentUser])
 
 
     const handleChange = e => {
